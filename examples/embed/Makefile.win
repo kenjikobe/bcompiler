@@ -1,0 +1,18 @@
+#use with  nmake -f Makefile produces phpe.exe
+# Put your compiled php source here
+ROOT=c:\work\php4
+# Change the following to php5* for PHP5
+LIBS=php4ts.lib php4embed.lib
+INCLUDES=-I "$(ROOT)" -I "$(ROOT)\main" -I "$(ROOT)\Zend" -I "$(ROOT)\TSRM" -I "$(ROOT)\sapi\embed"
+LIBDIRS=/libpath:"$(ROOT)\Release_TS"
+CC=cl
+LD=link
+CFLAGS=-MD -D ZTS -D PHP_WIN32 -D ZEND_WIN32 -D WIN32
+phpe.exe: phpe.obj
+        $(LD) $(LIBDIRS) /out:phpe.exe $(LIBS) phpe.obj
+phpe.obj: phpe.c
+        $(CC) $(CFLAGS) $(INCLUDES) -c phpe.c
+clean:
+        -del *.obj
+        -del phpe.exe
+

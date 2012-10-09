@@ -1,0 +1,17 @@
+// $Id: config.w32 305695 2010-11-23 20:01:22Z val $
+// vim:ft=javascript
+
+ARG_ENABLE("bcompiler", "Whether to enable bcompiler support", "no");
+ARG_ENABLE("bcompiler_debug", "Whether to include debug code in bcompiler", "no");
+
+if (PHP_BCOMPILER != "no") {
+	var bcompiler_sources =	'php_bcompiler.c bcompiler.c bcompiler_zend.c';
+
+	if (PHP_BCOMPILER_DEBUG != "no") {
+		AC_DEFINE('BCOMPILER_DEBUG_ON', 1);
+		bcompiler_sources += 'bcompiler_debug.c';
+	}
+
+	AC_DEFINE('HAVE_BCOMPILER', 1);
+	EXTENSION('bcompiler', bcompiler_sources);
+}
